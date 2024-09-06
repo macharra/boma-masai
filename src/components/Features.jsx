@@ -1,25 +1,27 @@
 import React from 'react';
 import FeatureSection from './FeatureSection';
-import laundry from '../assets/laundry.jpg';
-import food from '../assets/food.jpg';
-import menuPDF from '../assets/menu.pdf'; // Import the PDF file
+import {laundry} from './BomaFiles';
+import { restaurants } from './BomaFiles';
+import { useNavigate } from 'react-router-dom';
 
 const Features = () => {
+  const navigate = useNavigate(); 
+
   const handleRestaurantClick = () => {
-    // Opens the PDF in a new tab
-    window.open(menuPDF, '_blank');
+    navigate('/restaurants');
   };
 
   const handleLaundryClick = () => {
-    alert('Check out our laundry services!');
+    alert('Our laundry services are available for your convenience at an additional cost. Pricing details will be provided upon request.');
   };
+  
 
   return (
     <div>
       <FeatureSection
         title="Fine Food: Restaurant"
         description="Enjoy a variety of your favorite dishes at our restaurant. Mouth-watering all the way."
-        image={food}
+        image={restaurants[2]}
         buttonLabel="See More"
         onButtonClick={handleRestaurantClick}
       />

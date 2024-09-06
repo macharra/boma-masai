@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import roomImage1 from '../assets/boma-masai-rooms/SHOO0660.jpg';
-import roomImage2 from '../assets/boma-masai-rooms/SHOO0788.jpg';
-import roomImage3 from '../assets/boma-masai-rooms/SHOO0822.jpg';
+import { vips, executives, standards, regulars } from './BomaFiles';
+
 
 const roomCategories = [
   {
     name: 'VIP',
     description: 'Experience the epitome of luxury with our VIP rooms...',
-    image: roomImage1,
+    image: vips[1],
     route: '/vip-room',
     priceUSD: 80,
     priceTZS: 80000,
@@ -16,7 +15,7 @@ const roomCategories = [
   {
     name: 'Executive',
     description: 'Spacious rooms with premium amenities for a luxurious stay...',
-    image: roomImage2,
+    image: executives[0],
     route: '/executive-room',
     priceUSD: 50,
     priceTZS: 50000,
@@ -24,7 +23,7 @@ const roomCategories = [
   {
     name: 'Standard',
     description: 'Comfortable and affordable rooms for the budget-conscious traveler...',
-    image: roomImage1,
+    image: standards[1],
     route: '/standard-room',
     priceUSD: 40,
     priceTZS: 40000,
@@ -32,7 +31,7 @@ const roomCategories = [
   {
     name: 'Regular',
     description: 'Simple yet cozy rooms for a comfortable stay...',
-    image: roomImage3,
+    image: regulars[0],
     route: '/regular-room',
     priceUSD: 30,
     priceTZS: 30000,

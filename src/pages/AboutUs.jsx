@@ -1,46 +1,43 @@
+// AboutUs.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeroSection from '../components/HeroSection';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import aboutImage from '../assets/boma-masai-rooms/SHOO0863.jpg';
 import Header from '../components/Header';
+import { views } from '../components/BomaFiles';
 
 const AboutUs = () => {
-  const navigate = useNavigate(); // Initialize the navigate hook
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/contact-us'); // Navigate to the contact us page
+    navigate('/contact-us');
   };
+
+  const heroImages = [
+    { src: views[3], heading1: "ABOUT US", heading2: "BOMA MASAI GARDENS", button: "DISCOVER US" },
+    { src: views[0], heading1: "OUR HISTORY", heading2: "AND JOURNEY", button: "LEARN MORE" },
+    { src: views[1], heading1: "JOIN US", heading2: "ON OUR PATH", button: "CONNECT NOW" },
+  ];
 
   return (
     <>
-      <Header/>
+      <Header />
       <Navbar />
-      <HeroSection
-        heading1="WELCOME TO"
-        heading2="BOMA MAASAI GARDENS"
-        buttonText="DISCOVER US"
-      />
+      <HeroSection images={heroImages} />
       <div className="bg-gray-100 py-16 px-6">
         <div className="max-w-7xl mx-auto">
           <section className="mb-12 text-center">
-            <h2 className="text-4xl font-bold text-black">Our Story</h2>
-            <p className="mt-4 text-lg text-gray-700">
-              Boma Maasai Gardens stands as a leader in luxury and comfort in Uzunguni, Tanzania.
+            <h2 className="font-primary text-4xl font-bold text-black">Our Story</h2>
+            <p className="font-secondary mt-4 text-lg text-gray-700">
+              Boma Masai Gardens stands as a leader in luxury and comfort in Boma ng'ombe, Hai in Tanzania.
               Nestled in a tranquil and serene environment, it offers a peaceful retreat from
               the hustle and bustle of city life, a dedication that has earned us numerous accolades.
             </p>
           </section>
-
-          {/* Gallery and Mission/Vision Section */}
           <section className="grid md:grid-cols-2 gap-10">
             <div>
-              <img
-                src={aboutImage}
-                alt="Boma Maasai Gardens"
-                className="rounded-md shadow-lg w-full h-full object-cover"
-              />
+              <img src={views[0]} alt="Boma Maasai Gardens" className="rounded-md shadow-lg w-full h-full object-cover" />
             </div>
             <div className="flex flex-col justify-center">
               <h3 className="text-3xl font-semibold text-black">Our Mission</h3>
@@ -55,8 +52,6 @@ const AboutUs = () => {
               </p>
             </div>
           </section>
-
-          {/* Call to Action Section */}
           <section className="text-center mt-16">
             <h3 className="text-3xl font-bold text-black mb-4">Explore More with Us</h3>
             <p className="text-lg text-gray-700 mb-6">
@@ -71,6 +66,6 @@ const AboutUs = () => {
       <Footer />
     </>
   );
-}
+};
 
 export default AboutUs;

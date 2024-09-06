@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import roomImage1 from '../assets/boma-masai-rooms/SHOO0660.jpg';
-import roomImage2 from '../assets/boma-masai-rooms/SHOO0788.jpg';
-import roomImage3 from '../assets/boma-masai-rooms/SHOO0822.jpg';
+import {executives, vips, views, regulars} from './BomaFiles'
 import 'animate.css';
 
 // Images array
-const images = [roomImage1, roomImage2, roomImage3];
+const images = [executives[2], regulars[3], views[3],vips[2]];
 
 const Rooms = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -49,7 +47,7 @@ const Rooms = () => {
         </p>
         <button
           onClick={handleButtonClick}
-          className="animate__animated animate__bounceIn text-white px-6 py-2 bg-red-500 hover:bg-red-600 rounded-md transition-transform duration-300 hover:scale-110"
+          className="animate__animated animate__bounceIn text-white px-6 py-2 bg-black hover:bg-white hover:text-black rounded-md transition-transform duration-300 hover:scale-110"
         >
           ROOMS & SUITES OFFERS
         </button>

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import roomImage1 from '../assets/boma-masai-rooms/SHOO0660.jpg';
-import roomImage2 from '../assets/boma-masai-rooms/SHOO0788.jpg';
-import roomImage3 from '../assets/boma-masai-rooms/SHOO0822.jpg';
+import {regulars, standards, restaurants} from './BomaFiles'
 import { useNavigate } from 'react-router-dom'; 
 
-const images = [roomImage1, roomImage2, roomImage3];
+const images = [regulars[3], restaurants[2], standards[0]];
 
 const AboutSection = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -30,12 +28,12 @@ const AboutSection = () => {
       </h1>
       <div className="flex flex-col md:flex-row items-center justify-center">
         <div className="w-full md:w-1/2 mb-10 md:mb-0 md:pr-10">
-          <h2 className="text-4xl font-bold text-center md:text-left mb-4">BOMA MAASAI</h2>
+          <h2 className="text-4xl font-bold text-center md:text-left mb-4">BOMA MASAI</h2>
           <h1 className="text-5xl font-semibold text-center md:text-left mb-6">
             Find Comfort in our Hotel
           </h1>
           <p className="text-lg text-center md:text-left mb-6">
-          Boma Maasai Gardens stands as the foremost leader in luxury and comfort in Uzunguni, Tanzania. Positioned in a tranquil and serene environment, it provides a peaceful getaway from the hustle and bustle of city noise.
+          Boma Masai Gardens stands as the foremost leader in luxury and comfort in Boma ng'ombe, Hai in Tanzania. Positioned in a tranquil and serene environment, it provides a peaceful getaway from the hustle and bustle of city noise.
           </p>
           <div className="flex justify-center md:justify-start">
           <button

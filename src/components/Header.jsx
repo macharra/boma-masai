@@ -5,7 +5,7 @@ const Header = () => {
     <div className="bg-gray-800 bg-opacity-50 text-white py-2 px-4 flex justify-between items-center">
       <div className=' opacity-70'>
         <span className="mr-4">📞 +255 746 264 461</span>
-        <span>✉️ bomamaasai@gmail.com</span>
+        <span>✉️ bomamasaigardens@gmail.com</span>
       </div>
     </div>
   );

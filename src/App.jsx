@@ -14,6 +14,7 @@ import RegularRoom from './pages/RegularRoom';
 import StandardRoom from './pages/StandardRoom';
 import ExecutiveRoom from './pages/ExecutiveRoom';
 import OurRooms from './pages/OurRooms'
+import Restaurants from './pages/Restaurants';
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
   {
     path: '/our-rooms',
     element: <><ScrollToTop /><OurRooms /></>,
+  },
+  {
+    path: '/restaurants',
+    element: <><ScrollToTop /><Restaurants /></>,
   }
 ]);
 

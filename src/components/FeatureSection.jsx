@@ -12,7 +12,7 @@ const FeatureSection = ({ title, description, image, buttonLabel, onButtonClick,
           <p className="text-lg text-white mb-6">{description}</p>
           <button
             onClick={onButtonClick}
-            className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition-transform duration-300 transform hover:scale-105"
+            className="mt-4 px-6 py-3 bg-white text-black font-semibold hover:bg-black hover:text-white transition-transform duration-300"
           >
             {buttonLabel}
           </button>

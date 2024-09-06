@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import emailjs from 'emailjs-com'; // Install this with `npm install emailjs-com`
 
 const ContactForm = () => {
   const [form, setForm] = useState({
@@ -9,6 +10,17 @@ const ContactForm = () => {
     message: '',
   });
 
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    let tempErrors = {};
+    tempErrors.name = form.name ? "" : "Name is required.";
+    tempErrors.email = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(form.email) ? "" : "Email is not valid.";
+    tempErrors.message = form.message ? "" : "Message is required.";
+    setErrors(tempErrors);
+    return Object.values(tempErrors).every(x => x === "");
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -16,7 +28,21 @@ const ContactForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Your message has been submitted!');
+    if (validate()) {
+      emailjs.send(
+        'service_k7ch0uk', // Replace with your EmailJS service ID
+        'template_o0kz8lh', // Replace with your EmailJS template ID
+        form,
+        'VMOd9iiwDdbJT63So' // Replace with your EmailJS user ID
+      ).then(response => {
+        alert('Your message has been submitted!');
+        console.log('SUCCESS!', response);
+      }, error => {
+        console.log('FAILED...', error);
+      });
+    } else {
+      alert("Please fill out all required fields correctly.");
+    }
   };
 
   return (
@@ -28,16 +54,18 @@ const ContactForm = () => {
         placeholder="Your Name"
         value={form.name}
         onChange={handleChange}
-        className="block w-full mb-4 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-500"
+        className={`block w-full mb-4 px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none focus:border-red-500`}
       />
+      <div className="text-red-500 text-sm mb-4">{errors.name}</div>
       <input
         name="email"
         type="email"
         placeholder="Your Email"
         value={form.email}
         onChange={handleChange}
-        className="block w-full mb-4 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-500"
+        className={`block w-full mb-4 px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none focus:border-red-500`}
       />
+      <div className="text-red-500 text-sm mb-4">{errors.email}</div>
       <input
         name="phone"
         type="text"
@@ -59,8 +87,9 @@ const ContactForm = () => {
         placeholder="Your Message"
         value={form.message}
         onChange={handleChange}
-        className="block w-full mb-4 px-4 py-2 border border-gray-300 rounded h-32 focus:outline-none focus:border-red-500"
+        className={`block w-full mb-4 px-4 py-2 border ${errors.message ? 'border-red-500' : 'border-gray-300'} rounded h-32 focus:outline-none focus:border-red-500`}
       />
+      <div className="text-red-500 text-sm mb-4">{errors.message}</div>
       <button type="submit" className="w-full bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition duration-300">
         Submit
       </button>

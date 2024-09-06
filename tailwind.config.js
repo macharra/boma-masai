@@ -6,6 +6,10 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        primary: ['Poppins', 'sans-serif'],
+        secondary: ['Roboto', 'sans-serif'],
+      },
       keyframes: {
         // Existing keyframes
         fadeInDown: {

@@ -1,119 +1,198 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FaUser, FaEnvelope, FaPhone, FaCalendarAlt, FaUsers } from 'react-icons/fa';
+import emailjs from 'emailjs-com'; 
 
 const BookingForm = () => {
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    checkin: '',
+    checkout: '',
+    adults: '',
+  });
+
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false); // To disable the button during submission
+
+  const validate = () => {
+    let tempErrors = {};
+    tempErrors.name = form.name ? "" : "Name is required.";
+    tempErrors.email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email) ? "" : "Email is not valid.";
+    tempErrors.phone = /^\d{7,15}$/.test(form.phone) ? "" : "Phone number must be between 7-15 digits.";
+    tempErrors.checkin = form.checkin ? "" : "Check-in date is required.";
+    tempErrors.checkout = form.checkout ? "" : "Check-out date is required.";
+    tempErrors.adults = form.adults > 0 ? "" : "At least one adult is required.";
+    setErrors(tempErrors);
+    return Object.values(tempErrors).every(x => x === "");
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  
+    if (validate()) {
+      setIsSubmitting(true);
+  
+      // EmailJS integration
+      emailjs.send(
+        'service_k7ch0uk', // Replace with your EmailJS service ID
+        'template_0v7vha8', // Replace with your EmailJS template ID
+        {
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          checkin: form.checkin,
+          checkout: form.checkout,
+          adults: form.adults,
+        },
+        'LNdb6ymqrY3gv6Lai' // Replace with your EmailJS user ID
+      )
+        .then((response) => {
+          alert('Your booking has been submitted!');
+          console.log('SUCCESS!', response);
+  
+          // Confirmation for WhatsApp redirect
+          const confirmRedirect = confirm('Would you like to continue to WhatsApp for further assistance?');
+  
+          if (confirmRedirect) {
+            // Prepare WhatsApp message
+            const whatsappMessage = `Hello, I would like to book a room. 
+            Name: ${form.name}, 
+            Email: ${form.email}, 
+            Phone: ${form.phone}, 
+            Check-in: ${form.checkin}, 
+            Check-out: ${form.checkout}, 
+            Number of Adults: ${form.adults}`;
+  
+            // Hotel's WhatsApp number in international format
+            const hotelNumber = '+2547035223377'; // Replace with the hotel's WhatsApp number
+  
+            // Redirect to WhatsApp chat
+            window.location.href = `https://wa.me/${hotelNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+          }
+  
+          // Reset the form fields
+          setForm({
+            name: '',
+            email: '',
+            phone: '',
+            checkin: '',
+            checkout: '',
+            adults: '',
+          });
+        })
+        .catch((error) => {
+          console.log('FAILED...', error);
+        })
+        .finally(() => {
+          setIsSubmitting(false);
+        });
+    } else {
+      alert('Please fill in all required fields correctly.');
+    }
+  };
+  
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <form className="w-full max-w-lg bg-white p-8 shadow-lg rounded-lg">
-        <h2 className="text-2xl font-semibold text-teal-600 mb-6">Booking</h2>
+    <form onSubmit={handleSubmit} className="bg-white text-black p-8 shadow-lg rounded-md max-w-lg mx-auto">
+      <h2 className="text-2xl font-bold mb-6">Book Your Stay</h2>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="firstName">
-            Primary First Name *
-          </label>
-          <input
-            id="firstName"
-            type="text"
-            placeholder="First Name"
-            className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-        </div>
+      {/* Name Field */}
+      <div className="mb-4 relative">
+        <FaUser className="absolute left-3 top-3 text-gray-400" />
+        <input
+          name="name"
+          type="text"
+          placeholder="Your Name"
+          value={form.name}
+          onChange={handleChange}
+          className={`pl-10 block w-full px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
+        />
+        <div className="text-red-500 text-sm">{errors.name}</div>
+      </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lastName">
-            Primary Last Name *
-          </label>
-          <input
-            id="lastName"
-            type="text"
-            placeholder="Last Name"
-            className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-        </div>
+      {/* Email Field */}
+      <div className="mb-4 relative">
+        <FaEnvelope className="absolute left-3 top-3 text-gray-400" />
+        <input
+          name="email"
+          type="email"
+          placeholder="Your Email"
+          value={form.email}
+          onChange={handleChange}
+          className={`pl-10 block w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
+        />
+        <div className="text-red-500 text-sm">{errors.email}</div>
+      </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-            Email Address *
-          </label>
-          <input
-            id="email"
-            type="email"
-            placeholder="Email Address"
-            className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-        </div>
+      {/* Phone Field */}
+      <div className="mb-4 relative">
+        <FaPhone className="absolute left-3 top-3 text-gray-400" />
+        <input
+          name="phone"
+          type="text"
+          placeholder="Your Phone"
+          value={form.phone}
+          onChange={handleChange}
+          className={`pl-10 block w-full px-4 py-2 border ${errors.phone ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
+        />
+        <div className="text-red-500 text-sm">{errors.phone}</div>
+      </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">
-            Phone Number *
-          </label>
-          <input
-            id="phone"
-            type="tel"
-            placeholder="Phone"
-            className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-        </div>
+      {/* Check-in Field */}
+      <div className="mb-4 relative">
+        <FaCalendarAlt className="absolute left-3 top-3 text-gray-400" />
+        <input
+          name="checkin"
+          type="date"
+          value={form.checkin}
+          onChange={handleChange}
+          className={`pl-10 block w-full px-4 py-2 border ${errors.checkin ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
+        />
+        <div className="text-red-500 text-sm">{errors.checkin}</div>
+      </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="checkin">
-            Check in *
-          </label>
-          <input
-            id="checkin"
-            type="date"
-            className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-        </div>
+      {/* Check-out Field */}
+      <div className="mb-4 relative">
+        <FaCalendarAlt className="absolute left-3 top-3 text-gray-400" />
+        <input
+          name="checkout"
+          type="date"
+          value={form.checkout}
+          onChange={handleChange}
+          className={`pl-10 block w-full px-4 py-2 border ${errors.checkout ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
+        />
+        <div className="text-red-500 text-sm">{errors.checkout}</div>
+      </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="checkout">
-            Check out *
-          </label>
-          <input
-            id="checkout"
-            type="date"
-            className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-        </div>
+      {/* Adults Field */}
+      <div className="mb-4 relative">
+        <FaUsers className="absolute left-3 top-3 text-gray-400" />
+        <input
+          name="adults"
+          type="number"
+          min="1"
+          placeholder="Number of Adults"
+          value={form.adults}
+          onChange={handleChange}
+          className={`pl-10 block w-full px-4 py-2 border ${errors.adults ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
+        />
+        <div className="text-red-500 text-sm">{errors.adults}</div>
+      </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="adults">
-            Adults *
-          </label>
-          <select
-            id="adults"
-            className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-          >
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
-        </div>
-
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="children">
-            Children *
-          </label>
-          <select
-            id="children"
-            className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-          >
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-          </select>
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-teal-600 text-white py-2 rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
-        >
-          SUBMIT
-        </button>
-      </form>
-    </div>
+      <button
+        type="submit"
+        className="w-full bg-red-600 text-white px-6 py-3 rounded hover:bg-red-700 transition duration-300"
+        disabled={isSubmitting} // Disable button while submitting
+      >
+        {isSubmitting ? 'Submitting...' : 'Submit'}
+      </button>
+    </form>
   );
 };
 

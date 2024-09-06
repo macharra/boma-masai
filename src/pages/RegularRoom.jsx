@@ -1,55 +1,33 @@
+// RegularRoom.js
 import React from 'react';
-import Navbar from '../components/Navbar';
 import Header from '../components/Header';
-import RoomCategories from '../components/RoomCategories';
-import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
-import regular from '../assets/boma-masai-rooms/SHOO0745.jpg'
-import { useNavigate } from 'react-router-dom';
-
+import Footer from '../components/Footer';
+import RoomView from '../components/RoomView';
+import { regulars } from '../components/BomaFiles';
 
 const RegularRoom = () => {
-
-  const navigate = useNavigate();
-
-  const handleBookNow = () => {
-    navigate('/bookings');
-  };
-
   return (
     <>
-    <Header/>
-    <Navbar/>
-    <HeroSection/>
-    <div className="container mx-auto my-8 p-4">
-      <h1 className="text-4xl font-bold mb-4">Regular Room</h1>
-      <div className="grid md:grid-cols-2 gap-4">
-        <img src={regular} alt="Regular Room" className="w-full rounded-lg" />
-        <div>
-          <p className="mb-4">
-            Our Regular Rooms are designed to provide a comfortable stay at an affordable price, with all the basics covered.
-          </p>
-          <ul className="mb-4">
-            <li>Cozy bed</li>
-            <li>Private bathroom</li>
-            <li>Free Wi-Fi</li>
-            <li>Air conditioning</li>
-            <li>Daily housekeeping</li>
-          </ul>
-<button
-              onClick={handleBookNow}
-              className="bg-black text-white px-6 py-3 rounded-md mt-4 hover:bg-red-600 transition"
-            >
-              Book Now
-            </button>        </div>
-      </div>
-    </div>
-    <div>
-        <h2 className="text-center text-3xl font-bold text-black my-8">Our Rooms</h2>
-        <RoomCategories />
-        
-      </div>
-    <Footer/>
+      <Header/>
+      <Navbar/>
+      <HeroSection/>
+      <RoomView
+        title="Regular Room"
+        images={regulars}
+        description="Traveling for business? We've got you covered with bed and breakfast. The spacious room provides a private entrance and garden views, along with a private bathroom featuring a walk-in shower. Enjoy a TV unit, wardrobe, fresh cotton linens, and a garden outside your room."
+        features={[
+          "Bed & breakfast",
+          "Private entrance",
+          "Garden views",
+          "Private bathroom",
+          "TV unit, wardrobe"
+        ]}
+        price="30,000 / $30"
+        rates="East African residents and Non-residents"
+      />
+      <Footer/>
     </>
   );
 };
