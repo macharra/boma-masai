@@ -6,8 +6,8 @@ import { views, restaurants, vips } from './BomaFiles';
 const HeroSection = ({ images = [], heading1, heading2, buttonText }) => {
   const defaultImages = [
     { src: vips[0], heading1: "ENJOY BEST", heading2: "HOSPITALITY", button: "AT BOMA MASAI" },
-    { src: views[0], heading1: "EXPERIENCE", heading2: "NATURE", button: "IN OUR ENVIRONMENT" },
     { src: restaurants[1], heading1: "TASTE DELICIOUS", heading2: "CUISINE", button: "AT OUR RESTAURANT" },
+    { src: views[0], heading1: "KARIBU NYUMBANI", heading2: "", button: "BOMA MASAI GARDENS" },
   ];
 
   const actualImages = images.length > 0 ? images : defaultImages;
@@ -35,9 +35,24 @@ const HeroSection = ({ images = [], heading1, heading2, buttonText }) => {
         className={`w-full h-screen object-cover transition-opacity duration-1000 ${fadeIn ? 'opacity-100' : 'opacity-0'}`}
       />
       <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center space-y-4 transition-all duration-1000">
-        <h1 className="text-white text-5xl md:text-6xl font-bold hover:animate-bounce">
-          {heading1 || imgHeading1}
-        </h1>
+      <h1 
+      style={{
+        color: '#F70000',            // Equivalent to text-red-500
+        fontSize: window.innerWidth >= 768 ? '3.75rem' : '3rem', // text-6xl for md screens and text-5xl for smaller screens
+        fontWeight: '700',           // Equivalent to font-bold
+        display: 'inline-block',     // Necessary for hover animations
+        transition: 'transform 0.3s ease-in-out',
+      }}
+      onMouseOver={(e) => {
+        e.target.style.animation = 'bounce 1s infinite';
+      }}
+      onMouseOut={(e) => {
+        e.target.style.animation = 'none';
+      }}
+    >
+      {heading1 || imgHeading1}
+    </h1>
+
         <h2 className="text-white text-3xl md:text-4xl hover:animate-fade-in font-semibold mt-2">
           {heading2 || imgHeading2}
         </h2>
@@ -63,3 +78,4 @@ HeroSection.propTypes = {
 };
 
 export default HeroSection;
+

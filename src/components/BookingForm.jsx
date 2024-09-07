@@ -70,7 +70,7 @@ const BookingForm = () => {
             Number of Adults: ${form.adults}`;
   
             // Hotel's WhatsApp number in international format
-            const hotelNumber = '+2547035223377'; // Replace with the hotel's WhatsApp number
+            const hotelNumber = '+255783045154'; // Replace with the hotel's WhatsApp number
   
             // Redirect to WhatsApp chat
             window.location.href = `https://wa.me/${hotelNumber}?text=${encodeURIComponent(whatsappMessage)}`;
@@ -150,11 +150,12 @@ const BookingForm = () => {
         <input
           name="checkin"
           type="date"
+          min={new Date().toISOString().split('T')[0]}
           value={form.checkin}
           onChange={handleChange}
           className={`pl-10 block w-full px-4 py-2 border ${errors.checkin ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
         />
-        <div className="text-red-500 text-sm">{errors.checkin}</div>
+        <div className="text-red-600 text-base">{errors.checkin}</div>
       </div>
 
       {/* Check-out Field */}
@@ -163,6 +164,7 @@ const BookingForm = () => {
         <input
           name="checkout"
           type="date"
+          min={new Date().toISOString().split('T')[0]}
           value={form.checkout}
           onChange={handleChange}
           className={`pl-10 block w-full px-4 py-2 border ${errors.checkout ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
