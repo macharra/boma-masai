@@ -24,7 +24,7 @@ const VIPRoom = () => {
           "Air conditioning",
           "Flat-screen TV"
         ]}
-        price="60,000 / $60"
+        price="80,000 / $80"
         rates="Residential and Non-residential"
       />
       <Footer/>
