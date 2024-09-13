@@ -4,7 +4,7 @@ const ContactDetails = () => {
   return (
     <div className="bg-white text-black p-8 shadow-lg rounded-md">
       <h2 className="text-3xl font-serif font-bold mb-6 text-red-600">Get in Touch</h2>
-      <p className="mb-4 font-body"><strong>Address:</strong> Uzunguni Tanzania</p>
+      <p className="mb-4 font-body"><strong>Address:</strong> Uzunguni bomang'ombe, Hai Tanzania</p>
       <p className="mb-4 font-body"><strong>City:</strong> Moshi</p>
       <p className="mb-4 font-body"><strong>Phone:</strong> <a href="tel:+255 746 264 461" className="text-red-600 hover:underline">+255 746 264 461</a></p>
       <p className="mb-8 font-body"><strong>Email:</strong> <a href="mailto:bomamasaigardens@gmail.com" className="text-red-600 hover:underline">bomamasaigardens@gmail.com</a></p>
