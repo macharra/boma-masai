@@ -11,7 +11,7 @@ import { views } from '../components/BomaFiles';
 const ContactUs = () => {
   const heroImages = [
     { src: views[0], heading1: "GET IN TOUCH", heading2: "WE'RE HERE TO HELP", button: "CONTACT US" },
-    { src: views[1], heading1: "CONNECT WITH US", heading2: "ANYTIME", button: "EMAIL US" },
+    { src: views[1], heading1: "LET'S CONNECT", heading2: "AT ANYTIME", button: "EMAIL US" },
     { src: views[2], heading1: "VISIT US", heading2: "IN TANZANIA", button: "FIND US" },
   ];
 
