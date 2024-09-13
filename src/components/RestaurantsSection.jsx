@@ -19,7 +19,7 @@ const RestaurantsSection = () => {
   }, []);
 
   const handleButtonClick = () => {
-    navigate('/our-restaurants');
+    navigate('/restaurants');
   };
 
   return (

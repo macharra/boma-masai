@@ -27,6 +27,13 @@ const HeroSection = ({ images = [], heading1, heading2, buttonText }) => {
 
   const { src, heading1: imgHeading1, heading2: imgHeading2, button: imgButton } = actualImages[currentIndex];
 
+  const scrollToNextSection = () => {
+    window.scrollTo({
+      top: window.innerHeight * 1.25,
+      behavior:'smooth',
+    });
+  }
+
   return (
     <div className="relative">
       <img
@@ -39,8 +46,8 @@ const HeroSection = ({ images = [], heading1, heading2, buttonText }) => {
       style={{
         fontFamily:"'Playfair Display', 'serif'",
         color: '#F70000',            // Equivalent to text-red-500
-        fontSize: window.innerWidth >= 768 ? '3.75rem' : '3rem', // text-6xl for md screens and text-5xl for smaller screens
-        fontWeight: '700',           // Equivalent to font-bold
+        fontSize: window.innerWidth >= 768 ? '4rem' : '3rem', // text-6xl for md screens and text-5xl for smaller screens
+        fontWeight: '900',           // Equivalent to font-bold
         display: 'inline-block',     // Necessary for hover animations
         transition: 'transform 0.3s ease-in-out',
       }}
@@ -54,12 +61,17 @@ const HeroSection = ({ images = [], heading1, heading2, buttonText }) => {
       {heading1 || imgHeading1}
     </h1>
 
-        <h2 className="text-white text-3xl font-serif md:text-4xl hover:animate-fade-in font-semibold mt-2">
+        <h2 className="text-white text-4xl font-serif md:text-4xl hover:animate-fade-in font-semibold mt-2">
           {heading2 || imgHeading2}
         </h2>
-        <button className="mt-4 font-body px-6 py-3 bg-white text-black font-semibold hover:bg-black hover:text-white hover:cursor-default transition-transform duration-300">
-          {buttonText || imgButton}
-        </button>
+       <div className='absolute bottom-40 left-1/2 transform -translate-x-1/2'>
+        <div 
+        className='animate-bounce text-white text-3xl cursor-pointer'
+        onClick={scrollToNextSection}
+        >
+          ↓
+        </div>
+       </div>
 
       </div>
       {/* <button onClick={() => setCurrentIndex((currentIndex - 1 + actualImages.length) % actualImages.length)} className="absolute left-5 top-1/2 text-white transform -translate-y-1/2 text-3xl">

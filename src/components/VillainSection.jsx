@@ -1,7 +1,14 @@
 import React from 'react';
 import { views } from './BomaFiles';
+import { useNavigate } from 'react-router-dom';
 
 const VillainSection = () => {
+const navigate = useNavigate();
+
+const handleGetInTouchClick = () => {
+  navigate('/contact-us')
+}
+
   return (
     <div
       className="relative h-screen bg-fixed bg-cover bg-center"
@@ -15,7 +22,9 @@ const VillainSection = () => {
         <p className="text-lg font-body md:text-xl max-w-3xl mx-auto mb-8 text-white">
           Discover the perfect balance of modern luxury and Tanzanian heritage. At Boma Masai Gardens, we ensure your stay is memorable with unmatched hospitality and breathtaking views.
         </p>
-        <button className="bg-red-600 font-serif text-white font-bold py-3 px-6 rounded-full hover:bg-black transform hover:scale-105 transition duration-300 ease-in-out shadow-lg">
+        <button onClick={handleGetInTouchClick}
+        
+        className="bg-red-600 font-serif text-white font-bold py-3 px-6 rounded-full hover:bg-black transform hover:scale-105 transition duration-300 ease-in-out shadow-lg">
           Get In Touch
         </button>
 
