@@ -68,14 +68,14 @@ const RoomCategories = () => {
               className="w-full h-48 object-cover"
             />
             <div className="p-6">
-              <h3 className="text-2xl font-semibold text-gray-800">{category.name}</h3>
-              <p className="text-gray-600 mt-2">{category.description}</p>
+              <h3 className="font-serif text-2xl font-semibold text-gray-800">{category.name}</h3>
+              <p className="font-body text-gray-600 mt-2">{category.description}</p>
               <div className="mt-4">
-                <span className="text-lg font-bold">
+                <span className="text-lg font-body font-bold">
                   Price: {currency === 'USD' ? `$${category.priceUSD}` : `${category.priceTZS.toLocaleString()} TZS`}
                 </span>
               </div>
-              <button className="mt-4 inline-block bg-black text-white py-2 px-4 rounded-md transition hover:bg-gray-800">
+              <button className="font-body mt-4 inline-block bg-black text-white py-2 px-4 rounded-md transition hover:bg-gray-800">
                 View {category.name} Rooms
               </button>
             </div>

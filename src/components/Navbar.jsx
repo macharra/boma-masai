@@ -30,11 +30,11 @@ const Navbar = () => {
 
   const linkStyle = ({ isActive }) =>
     isActive
-      ? "border-b-2 border-red-500 text-red-500 font-bold"
+      ? "border-b-2 border-red-500 text-red-500 font-body font-bold"
       : "hover:text-gray-300";
 
   return (
-    <nav className="sticky top-0 bg-black bg-opacity-80 text-white py-3 px-6 flex justify-between items-center z-50">
+    <nav className="sticky top-0 bg-black bg-opacity-80 text-white font-body py-3 px-6 flex justify-between items-center z-50">
       <div className="flex items-center space-x-2 md:justify-start justify-center w-full md:w-auto">
         <Link to="/">
           <img src={logos[1]} alt="Logo" className="h-auto max-h-12" />

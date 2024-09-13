@@ -20,7 +20,7 @@ const OurRooms = () => {
       <Navbar />
       <HeroSection images={heroImages} />
       <div>
-        <h2 className="text-center text-3xl font-bold text-black my-8">Our Rooms</h2>
+        <h2 className="font-serif text-center text-3xl font-bold text-black my-8">Our Rooms</h2>
         <RoomCategories />
       </div>
       <Footer />

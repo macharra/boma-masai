@@ -1,4 +1,3 @@
-// BomaFiles.js
 import ex6 from '../assets/executive6.jpg';
 import ex5 from '../assets/executive5.jpg';
 import re6 from '../assets/regular6.jpg';

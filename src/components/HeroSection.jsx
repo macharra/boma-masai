@@ -37,6 +37,7 @@ const HeroSection = ({ images = [], heading1, heading2, buttonText }) => {
       <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center space-y-4 transition-all duration-1000">
       <h1 
       style={{
+        fontFamily:"'Playfair Display', 'serif'",
         color: '#F70000',            // Equivalent to text-red-500
         fontSize: window.innerWidth >= 768 ? '3.75rem' : '3rem', // text-6xl for md screens and text-5xl for smaller screens
         fontWeight: '700',           // Equivalent to font-bold
@@ -53,19 +54,20 @@ const HeroSection = ({ images = [], heading1, heading2, buttonText }) => {
       {heading1 || imgHeading1}
     </h1>
 
-        <h2 className="text-white text-3xl md:text-4xl hover:animate-fade-in font-semibold mt-2">
+        <h2 className="text-white text-3xl font-serif md:text-4xl hover:animate-fade-in font-semibold mt-2">
           {heading2 || imgHeading2}
         </h2>
-        <button className="mt-4 px-6 py-3 bg-white text-black font-semibold hover:bg-black hover:text-white transition-transform duration-300">
+        <button className="mt-4 font-body px-6 py-3 bg-white text-black font-semibold hover:bg-black hover:text-white hover:cursor-default transition-transform duration-300">
           {buttonText || imgButton}
         </button>
+
       </div>
-      <button onClick={() => setCurrentIndex((currentIndex - 1 + actualImages.length) % actualImages.length)} className="absolute left-5 top-1/2 text-white transform -translate-y-1/2 text-3xl">
+      {/* <button onClick={() => setCurrentIndex((currentIndex - 1 + actualImages.length) % actualImages.length)} className="absolute left-5 top-1/2 text-white transform -translate-y-1/2 text-3xl">
         ❮
       </button>
       <button onClick={() => setCurrentIndex((currentIndex + 1) % actualImages.length)} className="absolute right-5 top-1/2 text-white transform -translate-y-1/2 text-3xl">
         ❯
-      </button>
+      </button> */}
     </div>
   );
 };

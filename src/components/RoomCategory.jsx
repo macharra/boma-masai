@@ -9,18 +9,18 @@ const RoomCategory = ({ title, description, imageUrl, price, guests, roomSize, a
         className="w-full h-56 object-cover rounded-t-lg" 
       />
       <div className="p-4">
-        <h3 className="text-xl font-bold text-gray-800">{title}</h3>
-        <p className="text-gray-600 text-sm mt-2">{description}</p>
+        <h3 className="font-serif text-xl font-bold text-gray-800">{title}</h3>
+        <p className="font-body text-gray-600 text-sm mt-2">{description}</p>
         <div className="mt-4 flex items-center justify-between">
-          <span className="text-gray-700 text-sm">{guests} Guests</span>
-          <span className="text-gray-700 text-sm">{roomSize} ft²</span>
+          <span className="font-body text-gray-700 text-sm">{guests} Guests</span>
+          <span className="font-body text-gray-700 text-sm">{roomSize} ft²</span>
         </div>
         <div className="mt-4">
-          <h4 className="text-gray-800 font-semibold">Price: {price}</h4>
+          <h4 className="font-serif text-gray-800 font-semibold">Price: {price}</h4>
         </div>
         <div className="mt-4 flex items-center space-x-2">
           {amenities.map((amenity, index) => (
-            <span key={index} className="text-xs text-gray-500">{amenity}</span>
+            <span key={index} className="font-body text-xs text-gray-500">{amenity}</span>
           ))}
         </div>
       </div>

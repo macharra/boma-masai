@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaUser, FaEnvelope, FaPhone, FaCalendarAlt, FaUsers } from 'react-icons/fa';
-import emailjs from 'emailjs-com'; 
+import emailjs from 'emailjs-com';
+import NotificationBox from './NotificationBox';
 
 const BookingForm = () => {
   const [form, setForm] = useState({
@@ -9,11 +10,40 @@ const BookingForm = () => {
     phone: '',
     checkin: '',
     checkout: '',
-    adults: '',
+    adults: 1,
+    roomType: 'Standard',
   });
 
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false); // To disable the button during submission
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [notification, setNotification] = useState({
+    show: false,
+    type: '',
+    header: '',
+    message: ''
+  });
+  
+
+  const roomPrices = {
+    VIP: 80000,
+    Executive: 50000,
+    Standard: 40000,
+    Regular: 30000,
+  };
+
+  const calculatePrice = () => {
+    const { adults, roomType } = form;
+    const basePrice = roomPrices[roomType];
+
+    // For VIP, the price remains the same regardless of the number of adults
+    if (roomType === 'VIP') {
+      return basePrice;
+    }
+    
+    // For other rooms, add 10,000 per additional adult
+    const extraCharge = adults > 1 ? 10000 * (adults - 1) : 0;
+    return basePrice + extraCharge;
+  };
 
   const validate = () => {
     let tempErrors = {};
@@ -37,11 +67,12 @@ const BookingForm = () => {
   
     if (validate()) {
       setIsSubmitting(true);
-  
+      const price = calculatePrice();
+
       // EmailJS integration
       emailjs.send(
-        'service_k7ch0uk', // Replace with your EmailJS service ID
-        'template_0v7vha8', // Replace with your EmailJS template ID
+        'service_k7ch0uk',
+        'template_0v7vha8',
         {
           name: form.name,
           email: form.email,
@@ -49,59 +80,82 @@ const BookingForm = () => {
           checkin: form.checkin,
           checkout: form.checkout,
           adults: form.adults,
+          roomType: form.roomType,
+          price,
         },
-        'LNdb6ymqrY3gv6Lai' // Replace with your EmailJS user ID
+        'LNdb6ymqrY3gv6Lai'
       )
-        .then((response) => {
-          alert('Your booking has been submitted!');
-          console.log('SUCCESS!', response);
-  
-          // Confirmation for WhatsApp redirect
-          const confirmRedirect = confirm('Would you like to continue to WhatsApp for further assistance?');
-  
-          if (confirmRedirect) {
-            // Prepare WhatsApp message
-            const whatsappMessage = `Hello, I would like to book a room. 
+      .then((response) => {
+        setNotification({
+          show: true,
+          type: 'success',
+          header: 'Booking Submitted',
+          message: `Your booking has been submitted! Total Price: ${price} TZS`
+        });
+
+        const confirmRedirect = window.confirm('Would you like to continue to WhatsApp for further assistance?');
+        if (confirmRedirect) {
+          const whatsappMessage = `Hello, I would like to book a room. 
             Name: ${form.name}, 
             Email: ${form.email}, 
             Phone: ${form.phone}, 
             Check-in: ${form.checkin}, 
             Check-out: ${form.checkout}, 
-            Number of Adults: ${form.adults}`;
-  
-            // Hotel's WhatsApp number in international format
-            const hotelNumber = '+255783045154'; // Replace with the hotel's WhatsApp number
-  
-            // Redirect to WhatsApp chat
-            window.location.href = `https://wa.me/${hotelNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-          }
-  
-          // Reset the form fields
-          setForm({
-            name: '',
-            email: '',
-            phone: '',
-            checkin: '',
-            checkout: '',
-            adults: '',
-          });
-        })
-        .catch((error) => {
-          console.log('FAILED...', error);
-        })
-        .finally(() => {
-          setIsSubmitting(false);
+            Number of Adults: ${form.adults}, 
+            Room Type: ${form.roomType}, 
+            Price: ${price} TZS`;
+
+          const hotelNumber = '+255783045154';
+          window.location.href = `https://wa.me/${hotelNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+        }
+
+        // Reset the form
+        setForm({
+          name: '',
+          email: '',
+          phone: '',
+          checkin: '',
+          checkout: '',
+          adults: 1,
+          roomType: 'Standard',
         });
+      })
+      .catch((error) => {
+        setNotification({
+          show: true,
+          type: 'error',
+          header: 'Booking Failed',
+          message: 'Failed to submit booking. Please try again.'
+        });
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
     } else {
-      alert('Please fill in all required fields correctly.');
+      setNotification({
+        show: true,
+        type: 'error',
+        header: 'Not Submitted',
+        message: 'Please fill in all required fields correctly.'
+      });
     }
   };
-  
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white text-black p-8 shadow-lg rounded-md max-w-lg mx-auto">
-      <h2 className="text-2xl font-bold mb-6">Book Your Stay</h2>
+    <form onSubmit={handleSubmit} className="bg-white p-8 shadow-lg rounded-lg max-w-lg mx-auto">
+      <h2 className="text-3xl font-serif font-bold mb-6 text-gray-800">Book Your Stay</h2>
+  
+      {/* Notification */}
+      {notification.show && (
+        <NotificationBox
+          header={notification.header}
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification({ ...notification, show: false })}
+        />
+)}
 
+  
       {/* Name Field */}
       <div className="mb-4 relative">
         <FaUser className="absolute left-3 top-3 text-gray-400" />
@@ -111,11 +165,11 @@ const BookingForm = () => {
           placeholder="Your Name"
           value={form.name}
           onChange={handleChange}
-          className={`pl-10 block w-full px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
+          className={`pl-10 block font-body w-full px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
         />
-        <div className="text-red-500 text-sm">{errors.name}</div>
+        {errors.name && <div className="text-red-500 text-sm">{errors.name}</div>}
       </div>
-
+  
       {/* Email Field */}
       <div className="mb-4 relative">
         <FaEnvelope className="absolute left-3 top-3 text-gray-400" />
@@ -125,11 +179,11 @@ const BookingForm = () => {
           placeholder="Your Email"
           value={form.email}
           onChange={handleChange}
-          className={`pl-10 block w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
+          className={`pl-10 font-body block w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
         />
-        <div className="text-red-500 text-sm">{errors.email}</div>
+        {errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
       </div>
-
+  
       {/* Phone Field */}
       <div className="mb-4 relative">
         <FaPhone className="absolute left-3 top-3 text-gray-400" />
@@ -139,25 +193,25 @@ const BookingForm = () => {
           placeholder="Your Phone"
           value={form.phone}
           onChange={handleChange}
-          className={`pl-10 block w-full px-4 py-2 border ${errors.phone ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
+          className={`pl-10 block font-body w-full px-4 py-2 border ${errors.phone ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
         />
-        <div className="text-red-500 text-sm">{errors.phone}</div>
+        {errors.phone && <div className="text-red-500 text-sm">{errors.phone}</div>}
       </div>
-
+  
       {/* Check-in Field */}
       <div className="mb-4 relative">
-        <FaCalendarAlt className="absolute left-3 top-3 text-gray-400" />
+        <FaCalendarAlt className="absolute left-3 top-3 font-body text-gray-400" />
         <input
           name="checkin"
           type="date"
           min={new Date().toISOString().split('T')[0]}
           value={form.checkin}
           onChange={handleChange}
-          className={`pl-10 block w-full px-4 py-2 border ${errors.checkin ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
+          className={`pl-10 block font-body w-full px-4 py-2 border ${errors.checkin ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
         />
-        <div className="text-red-600 text-base">{errors.checkin}</div>
+        {errors.checkin && <div className="text-red-500 text-sm">{errors.checkin}</div>}
       </div>
-
+  
       {/* Check-out Field */}
       <div className="mb-4 relative">
         <FaCalendarAlt className="absolute left-3 top-3 text-gray-400" />
@@ -167,11 +221,11 @@ const BookingForm = () => {
           min={new Date().toISOString().split('T')[0]}
           value={form.checkout}
           onChange={handleChange}
-          className={`pl-10 block w-full px-4 py-2 border ${errors.checkout ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
+          className={`pl-10 block font-body w-full px-4 py-2 border ${errors.checkout ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
         />
-        <div className="text-red-500 text-sm">{errors.checkout}</div>
+        {errors.checkout && <div className="text-red-500 text-sm">{errors.checkout}</div>}
       </div>
-
+  
       {/* Adults Field */}
       <div className="mb-4 relative">
         <FaUsers className="absolute left-3 top-3 text-gray-400" />
@@ -179,23 +233,41 @@ const BookingForm = () => {
           name="adults"
           type="number"
           min="1"
-          placeholder="Number of Adults"
+          max={form.roomType === 'VIP' ? '3' : '2'}
           value={form.adults}
           onChange={handleChange}
-          className={`pl-10 block w-full px-4 py-2 border ${errors.adults ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
+          className={`pl-10 block font-body w-full px-4 py-2 border ${errors.adults ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
         />
-        <div className="text-red-500 text-sm">{errors.adults}</div>
+        {errors.adults && <div className="text-red-500 text-sm">{errors.adults}</div>}
       </div>
-
+  
+      {/* Room Type Field */}
+      <div className="mb-4">
+        <label className="block text-gray-700 mb-2">Room Type</label>
+        <select
+          name="roomType"
+          value={form.roomType}
+          onChange={handleChange}
+          className="block w-full font-body px-4 py-2 border border-gray-300 rounded focus:outline-none"
+        >
+          <option value="Standard">Standard Room - 40,000 TZS</option>
+          <option value="Executive">Executive Room - 50,000 TZS</option>
+          <option value="VIP">VIP Room - 80,000 TZS</option>
+          <option value="Regular">Regular Room - 30,000 TZS</option>
+        </select>
+      </div>
+  
+      {/* Submit Button */}
       <button
         type="submit"
-        className="w-full bg-red-600 text-white px-6 py-3 rounded hover:bg-red-700 transition duration-300"
-        disabled={isSubmitting} // Disable button while submitting
+        className={`bg-black font-body text-white w-full py-3 mt-4 rounded-lg transition-all duration-300 hover:bg-gray-800 focus:outline-none ${isSubmitting && 'opacity-50 cursor-not-allowed'}`}
+        disabled={isSubmitting}
       >
-        {isSubmitting ? 'Submitting...' : 'Submit'}
+        {isSubmitting ? 'Submitting...' : 'Submit Booking'}
       </button>
     </form>
   );
+  
 };
 
 export default BookingForm;

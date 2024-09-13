@@ -6,18 +6,18 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        'boma-red': '#F70000', // Custom red color for your theme
+      },
       fontFamily: {
-        primary: ['Poppins', 'sans-serif'],
-        secondary: ['Roboto', 'sans-serif'],
+        serif: ['Playfair Display', 'serif'],
+        body: ['Lora', 'serif'],
       },
       keyframes: {
-        // Existing keyframes
         fadeInDown: {
           '0%': { opacity: 0, transform: 'translateY(-20px)' },
           '100%': { opacity: 1, transform: 'translateY(0)' },
         },
-
-        // New bounce-in keyframes
         'bounce-in': {
           '0%': {
             opacity: '0',
@@ -32,24 +32,17 @@ export default {
             transform: 'scale(1)',
           },
         },
-
-        // New fade-in keyframes
         'fade-in': {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
         },
       },
-
       animation: {
-        // Existing animations
         'fade-in-down': 'fadeInDown 1s ease-out',
-
-        // New animations
         'bounce-in': 'bounce-in 0.8s ease-out forwards',
         'fade-in': 'fade-in 1s ease-out forwards',
       },
     },
   },
-
   plugins: [],
 };

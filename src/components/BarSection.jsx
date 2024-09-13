@@ -30,10 +30,10 @@ const BarSection = () => {
 
       {/* Text Content */}
       <div className="relative z-10">
-        <h2 className="animate__animated animate__fadeInDown text-red-500 text-4xl md:text-5xl font-semibold mb-4 transition-transform duration-300 hover:scale-105">
+        <h2 className="animate__animated animate__fadeInDown font-serif text-boma-red text-4xl md:text-5xl font-semibold mb-4 transition-transform duration-300 hover:scale-105">
           The Bar Experience
         </h2>
-        <p className="animate__animated animate__fadeInUp text-white text-lg mb-6 transition-transform duration-300 hover:scale-105">
+        <p className="animate__animated  animate__fadeInUp font-body text-white text-lg mb-6 transition-transform duration-300 hover:scale-105">
           Enjoy a diverse selection of signature cocktails crafted by our expert mixologists.
         </p>
       </div>

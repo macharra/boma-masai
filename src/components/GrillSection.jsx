@@ -15,18 +15,15 @@ const GrillSection = () => {
 
   return (
     <div className="py-20 my-12 px-6 md:px-16 bg-white text-black">
-      <h1 className="text-5xl font-bold text-center mb-10">
+      <h1 className="font-serif text-5xl font-bold text-center mb-10">
         Grills Section
         <span className="block w-24 h-1 bg-red-500 mx-auto my-2"></span>
       </h1>
       <div className="flex flex-col md:flex-row items-center justify-center">
         {/* Text Section */}
         <div className="w-full md:w-1/2 mb-10 md:mb-0 md:pr-10">
-          <h2 className="text-4xl font-bold text-center md:text-left mb-4">Our Grills</h2>
-          <h1 className="text-5xl font-semibold text-center md:text-left mb-6">
-            Savor the Best Grilled Dishes
-          </h1>
-          <p className="text-lg text-center md:text-left mb-6">
+          <h2 className="text-4xl font-serif font-bold text-center md:text-left mb-4">Savor the Best Grilled Dishes</h2>
+          <p className="font-body text-lg text-center md:text-left mb-6">
             Experience the ultimate flavors of our expertly grilled dishes, featuring the freshest ingredients and masterful techniques. Perfect for meat lovers and grill enthusiasts.
           </p>
         </div>

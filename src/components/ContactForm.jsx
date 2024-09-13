@@ -47,14 +47,14 @@ const ContactForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="bg-white text-black p-8 shadow-lg rounded-md">
-      <h2 className="text-3xl font-bold mb-6 text-red-600">Drop Us a Line</h2>
+      <h2 className="text-3xl font-serif font-bold mb-6 text-red-600">Drop Us a Line</h2>
       <input
         name="name"
         type="text"
         placeholder="Your Name"
         value={form.name}
         onChange={handleChange}
-        className={`block w-full mb-4 px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none focus:border-red-500`}
+        className={`block font-body w-full mb-4 px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none focus:border-red-500`}
       />
       <div className="text-red-500 text-sm mb-4">{errors.name}</div>
       <input
@@ -72,7 +72,7 @@ const ContactForm = () => {
         placeholder="Your Phone"
         value={form.phone}
         onChange={handleChange}
-        className="block w-full mb-4 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-500"
+        className="block w-full font-body mb-4 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-500"
       />
       <input
         name="subject"
@@ -80,17 +80,17 @@ const ContactForm = () => {
         placeholder="Subject"
         value={form.subject}
         onChange={handleChange}
-        className="block w-full mb-4 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-500"
+        className="block font-body w-full mb-4 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-500"
       />
       <textarea
         name="message"
         placeholder="Your Message"
         value={form.message}
         onChange={handleChange}
-        className={`block w-full mb-4 px-4 py-2 border ${errors.message ? 'border-red-500' : 'border-gray-300'} rounded h-32 focus:outline-none focus:border-red-500`}
+        className={`block font-body w-full mb-4 px-4 py-2 border ${errors.message ? 'border-red-500' : 'border-gray-300'} rounded h-32 focus:outline-none focus:border-red-500`}
       />
-      <div className="text-red-500 text-sm mb-4">{errors.message}</div>
-      <button type="submit" className="w-full bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition duration-300">
+      <div className="text-red-500 font-body text-sm mb-4">{errors.message}</div>
+      <button type="submit" className="w-full font-body bg-red-600 text-white px-6 py-2 rounded hover:bg-black transition duration-300">
         Submit
       </button>
     </form>
