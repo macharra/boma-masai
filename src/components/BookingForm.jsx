@@ -93,6 +93,15 @@ const BookingForm = () => {
           message: `Your booking has been submitted! Total Price: ${price} TZS`
         });
 
+        setTimeout(() => {
+          setNotification({
+            show: false,
+            type: '',
+            header: '',
+            message: ''
+          });
+        }, 6000);
+
         const confirmRedirect = window.confirm('Would you like to continue to WhatsApp for further assistance?');
         if (confirmRedirect) {
           const whatsappMessage = `Hello, I would like to book a room. 

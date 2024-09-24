@@ -6,7 +6,7 @@ const NotificationBox = ({ header, message, onClose, type = 'success' }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto transition-all duration-300">
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto transition-transform transform duration-500 ease-in-out">
         <h2 className={`font-serif text-2xl font-semibold mb-4 ${typeStyles[type]}`}>
           {header}
         </h2>
