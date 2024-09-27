@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import Disclaimer from './Disclaimer';
+
 
 const RoomView = ({ title, images, description, features, price, rates }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -19,7 +21,10 @@ const RoomView = ({ title, images, description, features, price, rates }) => {
   };
 
   return (
-    <div className="container mx-auto my-8 p-4">
+    
+    <>
+      <Disclaimer/>
+      <div className="container mx-auto my-16 p-4">
       <h1 className="font-serif text-4xl font-bold mb-4">{title}</h1>
       <div className="grid md:grid-cols-2 gap-8">
         <div className="relative overflow-hidden rounded-lg h-80">
@@ -36,7 +41,9 @@ const RoomView = ({ title, images, description, features, price, rates }) => {
             />
           </AnimatePresence>
         </div>
+        
         <div>
+        
           <p className="font-body mb-4">{description}</p>
           <ul className="mb-4 list-disc list-inside">
             {features.map((feature, index) => (
@@ -54,6 +61,9 @@ const RoomView = ({ title, images, description, features, price, rates }) => {
         </div>
       </div>
     </div>
+    
+    
+    </>
   );
 };
 

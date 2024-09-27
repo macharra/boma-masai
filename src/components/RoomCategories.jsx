@@ -49,9 +49,9 @@ const RoomCategories = () => {
         <select
           value={currency}
           onChange={(e) => setCurrency(e.target.value)}
-          className="border px-2 py-1 rounded-md"
+          className="border font-body px-2 py-1 rounded-md"
         >
-          <option value="USD">USD</option>
+          <option className='font-body' value="USD">USD</option>
           <option value="TZS">TZS</option>
         </select>
       </div>

@@ -12,6 +12,7 @@ const BookingForm = () => {
     checkout: '',
     adults: 1,
     roomType: 'Standard',
+    region: 'East African' // Default to East African
   });
 
   const [errors, setErrors] = useState({});
@@ -22,26 +23,26 @@ const BookingForm = () => {
     header: '',
     message: ''
   });
-  
 
+  // Pricing in TZS and USD based on region
   const roomPrices = {
-    VIP: 80000,
-    Executive: 50000,
-    Standard: 40000,
-    Regular: 30000,
+    VIP: { tzs: 80000, usd: 80 },
+    Executive: { tzs: 50000, usd: 50 },
+    Standard: { tzs: 40000, usd: 40 },
+    Regular: { tzs: 30000, usd: 30 },
   };
 
   const calculatePrice = () => {
-    const { adults, roomType } = form;
-    const basePrice = roomPrices[roomType];
-
-    // For VIP, the price remains the same regardless of the number of adults
+    const { adults, roomType, region } = form;
+    const basePrice = region === 'East African' ? roomPrices[roomType].tzs : roomPrices[roomType].usd;
+    
+    // For VIP, price remains the same regardless of the number of adults
     if (roomType === 'VIP') {
       return basePrice;
     }
-    
-    // For other rooms, add 10,000 per additional adult
-    const extraCharge = adults > 1 ? 10000 * (adults - 1) : 0;
+
+    // For non-VIP, add 10,000 TZS or 10 USD per additional adult for East Africans
+    const extraCharge = region === 'East African' && adults > 1 ? 10000 * (adults - 1) : 0;
     return basePrice + extraCharge;
   };
 
@@ -64,10 +65,11 @@ const BookingForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+    
     if (validate()) {
       setIsSubmitting(true);
       const price = calculatePrice();
+      const currency = form.region === 'East African' ? 'TZS' : 'USD';
 
       // EmailJS integration
       emailjs.send(
@@ -82,15 +84,17 @@ const BookingForm = () => {
           adults: form.adults,
           roomType: form.roomType,
           price,
+          currency
         },
         'LNdb6ymqrY3gv6Lai'
       )
       .then((response) => {
+        // Show success notification
         setNotification({
           show: true,
           type: 'success',
           header: 'Booking Submitted',
-          message: `Your booking has been submitted! Total Price: ${price} TZS`
+          message: `Your booking has been submitted and email sent successfully! Total Price: ${price} ${currency}`
         });
 
         setTimeout(() => {
@@ -100,34 +104,36 @@ const BookingForm = () => {
             header: '',
             message: ''
           });
-        }, 6000);
 
-        const confirmRedirect = window.confirm('Would you like to continue to WhatsApp for further assistance?');
-        if (confirmRedirect) {
-          const whatsappMessage = `Hello, I would like to book a room. 
-            Name: ${form.name}, 
-            Email: ${form.email}, 
-            Phone: ${form.phone}, 
-            Check-in: ${form.checkin}, 
-            Check-out: ${form.checkout}, 
-            Number of Adults: ${form.adults}, 
-            Room Type: ${form.roomType}, 
-            Price: ${price} TZS`;
+          // WhatsApp redirect after notification
+          const confirmRedirect = window.confirm('Would you like to continue to WhatsApp for further assistance?');
+          if (confirmRedirect) {
+            const whatsappMessage = `Hello, I would like to book a room. 
+              Name: ${form.name}, 
+              Email: ${form.email}, 
+              Phone: ${form.phone}, 
+              Check-in: ${form.checkin}, 
+              Check-out: ${form.checkout}, 
+              Number of Adults: ${form.adults}, 
+              Room Type: ${form.roomType}, 
+              Price: ${price} ${currency}`;
 
-          const hotelNumber = '+255783045154';
-          window.location.href = `https://wa.me/${hotelNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-        }
+            const hotelNumber = '+255783045154';
+            window.location.href = `https://wa.me/${hotelNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+          }
 
-        // Reset the form
-        setForm({
-          name: '',
-          email: '',
-          phone: '',
-          checkin: '',
-          checkout: '',
-          adults: 1,
-          roomType: 'Standard',
-        });
+          // Reset the form
+          setForm({
+            name: '',
+            email: '',
+            phone: '',
+            checkin: '',
+            checkout: '',
+            adults: 1,
+            roomType: 'Standard',
+            region: 'East African' // Reset to default region
+          });
+        }, 2000);
       })
       .catch((error) => {
         setNotification({
@@ -162,8 +168,7 @@ const BookingForm = () => {
           type={notification.type}
           onClose={() => setNotification({ ...notification, show: false })}
         />
-)}
-
+      )}
   
       {/* Name Field */}
       <div className="mb-4 relative">
@@ -209,7 +214,7 @@ const BookingForm = () => {
   
       {/* Check-in Field */}
       <div className="mb-4 relative">
-        <FaCalendarAlt className="absolute left-3 top-3 font-body text-gray-400" />
+        <FaCalendarAlt className="absolute left-3 top-3 text-gray-400" />
         <input
           name="checkin"
           type="date"
@@ -242,7 +247,6 @@ const BookingForm = () => {
           name="adults"
           type="number"
           min="1"
-          max={form.roomType === 'VIP' ? '3' : '2'}
           value={form.adults}
           onChange={handleChange}
           className={`pl-10 block font-body w-full px-4 py-2 border ${errors.adults ? 'border-red-500' : 'border-gray-300'} rounded focus:outline-none`}
@@ -252,31 +256,44 @@ const BookingForm = () => {
   
       {/* Room Type Field */}
       <div className="mb-4">
-        <label className="block text-gray-700 mb-2">Room Type</label>
+        <label className="block font-body text-gray-700 mb-2">Room Type</label>
         <select
           name="roomType"
           value={form.roomType}
           onChange={handleChange}
-          className="block w-full font-body px-4 py-2 border border-gray-300 rounded focus:outline-none"
+          className="font-body block w-full px-4 py-2 border border-gray-300 rounded focus:outline-none"
         >
-          <option value="Standard">Standard Room - 40,000 TZS</option>
-          <option value="Executive">Executive Room - 50,000 TZS</option>
-          <option value="VIP">VIP Room - 80,000 TZS</option>
-          <option value="Regular">Regular Room - 30,000 TZS</option>
+          <option value="Standard">Standard</option>
+          <option value="Regular">Regular</option>
+          <option value="Executive">Executive</option>
+          <option value="VIP">VIP</option>
+        </select>
+      </div>
+  
+      {/* Region Selection */}
+      <div className="mb-4">
+        <label className="block font-body text-gray-700 mb-2">Region</label>
+        <select
+          name="region"
+          value={form.region}
+          onChange={handleChange}
+          className="font-body block w-full px-4 py-2 border border-gray-300 rounded focus:outline-none"
+        >
+          <option value="East African">East African</option>
+          <option value="Non-East African">Non-East African</option>
         </select>
       </div>
   
       {/* Submit Button */}
       <button
         type="submit"
-        className={`bg-black font-body text-white w-full py-3 mt-4 rounded-lg transition-all duration-300 hover:bg-gray-800 focus:outline-none ${isSubmitting && 'opacity-50 cursor-not-allowed'}`}
         disabled={isSubmitting}
+        className="bg-black text-white font-body px-6 py-2 rounded-md hover:bg-boma-red focus:outline-none"
       >
         {isSubmitting ? 'Submitting...' : 'Submit Booking'}
       </button>
     </form>
   );
-  
 };
 
 export default BookingForm;
