@@ -54,9 +54,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="text-center mt-8">
-          <p className='font-body'>Developed by <a href="https://www.instagram.com/donkongvisualz/" target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-red-500 transition-colors duration-300">donkongvisualz</a></p>
-        </div>
+        
       </div>
     </div>
   );
